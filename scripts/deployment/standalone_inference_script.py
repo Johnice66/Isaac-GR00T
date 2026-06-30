@@ -26,10 +26,10 @@ import time
 from typing import Any, Literal
 import warnings
 
+from _trt_contract import assert_exec_horizon_within_model
 from gr00t.data.dataset.lerobot_episode_loader import LeRobotEpisodeLoader
 from gr00t.data.dataset.sharded_single_step_dataset import extract_step_data
 from gr00t.data.embodiment_tags import EmbodimentTag
-from gr00t.deployment.modes import VideoBackend
 from gr00t.policy.gr00t_policy import Gr00tPolicy
 from gr00t.policy.policy import BasePolicy
 from matplotlib import pyplot as plt
@@ -600,9 +600,6 @@ class ArgsConfig:
     action_horizon: int = 16
     """Action horizon to evaluate."""
 
-    video_backend: VideoBackend = "torchcodec"
-    """Video backend to use for various codec options. h264: decord or av: torchvision_av"""
-
     dataset_path: str = "demo_data/droid_sample"
     """Path to the dataset."""
 
@@ -711,6 +708,13 @@ def main(args: ArgsConfig):
     modality = policy.get_modality_config()
     logging.info(f"Current modality config: \n{modality}")
 
+    model_action_horizon = len(modality["action"].delta_indices)
+    assert_exec_horizon_within_model(
+        exec_horizon=args.action_horizon,
+        model_action_horizon=model_action_horizon,
+        source="standalone_inference_script",
+    )
+
     # Dataset creation
     logging.info("\n" + "=" * 80)
     logging.info("=== Step 2: Creating Dataset Loader ===")
@@ -720,8 +724,6 @@ def main(args: ArgsConfig):
     dataset = LeRobotEpisodeLoader(
         dataset_path=args.dataset_path,
         modality_configs=modality,
-        video_backend=args.video_backend,
-        video_backend_kwargs=None,
     )
 
     dataset_load_time = time.time() - dataset_load_start
