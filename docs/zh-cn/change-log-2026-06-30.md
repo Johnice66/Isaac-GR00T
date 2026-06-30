@@ -89,3 +89,52 @@
 - 本地 macOS 环境不具备项目完整 CUDA/TensorRT 运行条件，不能替代服务器上的 GPU 集成验证。
 - 上游已统一使用 torchcodec；服务器更新依赖后应重点验证本地 HEVC 数据集读取和真机相机处理流程。
 - TensorRT 导出契约有所加强，已有 engine 若与新代码版本不匹配，应重新执行导出、构建和校验流程。
+
+## 2026-06-30：中文主文档入口与第一方中文文档补齐
+
+涉及文件：
+
+- `README.md`
+- `README.en.md`
+- `docs/README.md`
+- `docs/zh-cn/README.md`
+- `FAQ.zh-CN.md`
+- `CONTRIBUTING.zh-CN.md`
+- `docker/README.zh-CN.md`
+- `getting_started/*.zh-CN.md`
+- `scripts/deployment/README.zh-CN.md`
+- `scripts/lerobot_conversion/README.zh-CN.md`
+- `examples/*/README.zh-CN.md`
+- `tests/fixtures/README.zh-CN.md`
+- `docs/zh-cn/change-log-2026-06-30.md`
+
+主要改动：
+
+- 把根 `README.md` 改成中文主入口。
+- 把 AgiBot G01 项目迁移文档提升到根 README 顶部入口位置。
+- 保留原英文根文档为 `README.en.md`。
+- 为仓库第一方英文说明文档补齐对应的 `*.zh-CN.md` 中文版本。
+- 更新 `docs/README.md` 和 `docs/zh-cn/README.md`，把中文入口和项目文档索引串起来。
+
+修改原理：
+
+- 不直接覆盖第三方依赖目录 `external_dependencies/` 的上游文档，避免把 vendored 内容改成难以维护的私有分叉。
+- 对第一方文档采用“中文入口页 + 对应中文版本文件”的方式，既满足当前中文使用需求，也保留英文原文作为对照。
+- 根 README 不再逐字复刻上游长文，而是改成更适合当前分支的导航页，降低后续维护成本。
+
+实现功能：
+
+- 降低当前 AgiBot G01 分支的阅读门槛。
+- 让训练、subtask、server/client、部署加速几条主路径都能直接通过中文入口找到。
+- 为后续继续修改项目代码保留统一的中文维护入口。
+
+验证记录：
+
+- 运行了文档链接校验：
+  - `python3 /Users/johnice/.codex/skills/document-codebase/scripts/validate_docs.py --repo-root "$PWD" README.md docs`
+
+已知限制和后续事项：
+
+- 这次翻译范围只覆盖仓库第一方文档，不包含 `external_dependencies/`、`LICENSE`、`ATTRIBUTIONS.md` 等上游或法务性质文件。
+- 部分超长英文文档的中文版本采用工程化摘要和可维护重写，不是逐段逐句镜像翻译。
+- 如果后续第一方英文文档继续新增，需要同步补 `*.zh-CN.md` 并更新索引。

@@ -28,3 +28,26 @@
 ## 维护规则
 
 每次修改项目代码后，都需要同步更新修改记录。小改动可以追加到 [近期项目修改日志](change-log-2026-06-11.md)，较大的独立主题可以新增 `change-log-YYYY-MM-DD.md` 并在本页链接。
+
+## 通用中文入口
+
+除了本目录的工程文档，仓库第一方英文文档已经补充了中文版本，统一采用 `*.zh-CN.md` 命名，入口如下：
+
+1. [根 README 中文入口](../../README.md)
+2. [FAQ 中文版](../../FAQ.zh-CN.md)
+3. [贡献说明中文版](../../CONTRIBUTING.zh-CN.md)
+4. [数据准备指南中文版](../../getting_started/data_preparation.zh-CN.md)
+5. [模态配置指南中文版](../../getting_started/data_config.zh-CN.md)
+6. [新 embodiment 微调指南中文版](../../getting_started/finetune_new_embodiment.zh-CN.md)
+7. [Policy API 指南中文版](../../getting_started/policy.zh-CN.md)
+8. [真机部署指南中文版](../../getting_started/real_world_deployment.zh-CN.md)
+9. [部署与推理加速指南中文版](../../scripts/deployment/README.zh-CN.md)
+10. [Docker 说明中文版](../../docker/README.zh-CN.md)
+
+## 项目优先文档
+
+当前分支首先服务 AgiBot G01 项目，迁移或续聊时优先看：
+
+1. [AgiBot G01 项目迁移文档](../../PROJECT_HANDOFF_2026-06-08_CN.md)
+2. [近期项目修改日志](change-log-2026-06-11.md)
+3. [GitHub 发布整理日志](change-log-2026-06-30.md)
