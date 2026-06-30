@@ -78,3 +78,34 @@ getting_started/    # User-facing guides and notebooks
 - **DGX Spark:** CUDA 13.0 — install via `scripts/deployment/spark/install_deps.sh`, container via `scripts/deployment/spark/Dockerfile`
 
 Each Jetson/Spark platform ships an `activate_*.sh` helper (`scripts/activate_orin.sh`, `scripts/activate_spark.sh`, `scripts/activate_thor.sh`) that exports platform-specific library paths. For dGPU, the standard `source .venv/bin/activate` is sufficient.
+
+## Documentation and change logs
+
+- `AGENTS.md` is a symlink to this file, so project agent rules should be written here.
+- Every code change must be recorded in a project change log.
+- Chinese change logs live under `docs/zh-cn/`.
+- Small changes should be appended to the latest `docs/zh-cn/change-log-YYYY-MM-DD.md`.
+- Independent topics, multi-day changes, or cross-module changes should get a new `docs/zh-cn/change-log-YYYY-MM-DD.md`.
+- New change logs must be linked from `docs/zh-cn/README.md`.
+- Each change-log entry should include:
+  - date,
+  - files touched,
+  - what changed,
+  - implementation principle,
+  - intended functionality,
+  - validation or why validation was not run,
+  - known limitations and follow-ups.
+- Documentation-only and comment-only changes should still be recorded briefly unless the user explicitly asks not to update documentation.
+
+## Current project notes
+
+- On the remote training/inference server, do not default to `uv run`; dependency syncing has previously failed because the flash-attn download source was unstable. Use the activated venv `python` directly.
+- In each new remote shell, set the venv cuDNN path before training or inference:
+
+```bash
+source /root/gpufree-data/Isaac-GR00T/.venv/bin/activate
+export LD_LIBRARY_PATH=/root/gpufree-data/Isaac-GR00T/.venv/lib/python3.10/site-packages/nvidia/cudnn/lib:$LD_LIBRARY_PATH
+```
+
+- The current AgiBot G01 task controls dual-arm 14 joints plus left/right grippers. Do not control base, head, or waist for the fixed-point task.
+- If a checkpoint was trained with `config_subtask.py`, the client observation language key must be `sub_task`, not `annotation.human.task_description`.

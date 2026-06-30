@@ -168,3 +168,11 @@ offline_open_loop_eval_plots/
 # Generic model/data folders
 /models
 /data
+
+# Local GR00T training datasets
+# Keep dataset conversion scripts and meta configuration in Git, but exclude
+# large frame/video payloads and generated backup files.
+/datasets/*/data/
+/datasets/*/videos/
+/datasets/**/*.bak
+/datasets/**/*.bak_*
